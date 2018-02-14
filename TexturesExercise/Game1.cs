@@ -92,35 +92,40 @@ namespace TexturesExercise
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            // Update the player for movement
             player.Update();
             // TODO: Add your update logic here
             if(InputEngine.IsKeyPressed(Keys.C))
             {
                 CharactersOnScreen = !CharactersOnScreen;
-                if (CharactersOnScreen)
-                {
-                    if (CharactersOnScreen)
-                        foreach (var entry in Characters)
-                        {
-                            entry.Value.Update();
-                        }
-                    Sprite found = null;
-                    foreach (var item in Characters)
-                    {
-                        if (item.Value.Selected)
-                        {
-                            found = item.Value;
-                            break;
-                        }
-                        if (found != null)
-                        {
-                            found.Selected = false;
-                            player.Tx = found.Tx;
-                        }
-                    }
-                } 
             }
 
+            if (CharactersOnScreen)
+            {
+                // Update to catch the mouse click
+                foreach (var entry in Characters)
+                {
+                    entry.Value.Update();
+                }
+                // Find if one was clicked
+                Sprite found = null;
+                foreach (var item in Characters)
+                {
+                    // Found one
+                    if (item.Value.Selected)
+                    {
+                        found = item.Value;
+                        break;
+                    }
+                }
+                // if found reset for next time and set player image
+                if (found != null)
+                {
+                    found.Selected = false;
+                    player.Tx = found.Tx;
+                }
+            }
             base.Update(gameTime);
 
 

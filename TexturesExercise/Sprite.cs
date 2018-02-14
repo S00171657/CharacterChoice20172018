@@ -61,7 +61,7 @@ namespace TexturesExercise
 
         public virtual void Update()
         {
-            if(_bounds.Contains(InputEngine.MousePosition))
+            if(InputEngine.IsMouseLeftClick() && _bounds.Contains(InputEngine.MousePosition))
                 {
                 _selected = true;
                 }
