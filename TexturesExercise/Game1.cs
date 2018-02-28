@@ -1,5 +1,6 @@
 ﻿using Engine.Engines;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -14,8 +15,9 @@ namespace TexturesExercise
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Dictionary<string, Sprite> Characters = new Dictionary<string, Sprite>();
-        bool CharactersOnScreen = false;
+        Dictionary<string, Sprite> Badges = new Dictionary<string, Sprite>();
+        Dictionary<string, SoundEffect> sfx = new Dictionary<string, SoundEffect>();
+        bool CharactersOnScreen = true;
 
         Player player;
 
@@ -48,26 +50,54 @@ namespace TexturesExercise
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // Craete start point
-            Point startPoint = new Point(100, 100);
+            Point startPoint = new Point(10, 100);
             // create and load first texture
             Texture2D tx = Content.Load<Texture2D>(@"Badges\Badges_0");
             // Add first Character
-            Characters.Add("Badges_0", 
+            Badges.Add("Badges_0", 
                 new Sprite(tx,new Rectangle(startPoint,new Point(tx.Width,tx.Height)))
                 );
-            Characters["Badges_0"].CharacterName = "Badges_0";
+            Badges["Badges_0"].CharacterName = "Badges_0";
 
             // Move Rectangle position along
             startPoint.X += tx.Width + 10;
             // Add Badges_1
             tx = Content.Load<Texture2D>(@"Badges\Badges_1");
-            Characters.Add("Badges_1",
+            Badges.Add("Badges_1",
                 new Sprite(tx,new Rectangle(startPoint, new Point(tx.Width, tx.Height)))
                 );
-            Characters["Badges_1"].CharacterName = "Badges_1";
+            Badges["Badges_1"].CharacterName = "Badges_1";
+
+            // Move Rectangle position along
+            startPoint.X += tx.Width + 10;
+            // Add Badges_2
+            tx = Content.Load<Texture2D>(@"Badges\Badges_2");
+            Badges.Add("Badges_2",
+                new Sprite(tx, new Rectangle(startPoint, new Point(tx.Width, tx.Height)))
+                );
+            Badges["Badges_2"].CharacterName = "Badges_2";
+
+            // Move Rectangle position along
+            startPoint.X += tx.Width + 10;
+            // Add Badges_3
+            tx = Content.Load<Texture2D>(@"Badges\Badges_3");
+            Badges.Add("Badges_3",
+                new Sprite(tx, new Rectangle(startPoint, new Point(tx.Width, tx.Height)))
+                );
+            Badges["Badges_3"].CharacterName = "Badges_3";
+
+            // Move Rectangle position along
+            startPoint.X += tx.Width + 10;
+            // Add Badges_4
+            tx = Content.Load<Texture2D>(@"Badges\Badges_4");
+            Badges.Add("Badges_4",
+                new Sprite(tx, new Rectangle(startPoint, new Point(tx.Width, tx.Height)))
+                );
+            Badges["Badges_4"].CharacterName = "Badges_4";
+
 
             // Setup Player and give him a default character
-            player = new Player(Characters["Badges_0"].Tx,new Rectangle(10, 10,tx.Width, tx.Height));
+            player = new Player(Badges["Badges_0"].Tx,new Rectangle(10, 10,tx.Width, tx.Height));
             player.CharacterName = "Badges_0";
             
 
@@ -94,7 +124,7 @@ namespace TexturesExercise
                 Exit();
 
             // Update the player for movement
-            player.Update();
+            //player.Update();
             // TODO: Add your update logic here
             if(InputEngine.IsKeyPressed(Keys.C))
             {
@@ -104,13 +134,13 @@ namespace TexturesExercise
             if (CharactersOnScreen)
             {
                 // Update to catch the mouse click
-                foreach (var entry in Characters)
+                foreach (var entry in Badges)
                 {
                     entry.Value.Update();
                 }
                 // Find if one was clicked
                 Sprite found = null;
-                foreach (var item in Characters)
+                foreach (var item in Badges)
                 {
                     // Found one
                     if (item.Value.Selected)
@@ -141,7 +171,7 @@ namespace TexturesExercise
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             if(CharactersOnScreen)
-                foreach (var entry in Characters)
+                foreach (var entry in Badges)
                 {
                     entry.Value.Draw(spriteBatch);
                 }
